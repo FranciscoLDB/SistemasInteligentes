@@ -1,20 +1,281 @@
 itens = [
-    {'valor': 5, 'peso': 5},
     {'valor': 2, 'peso': 2},
-    {'valor': 7, 'peso': 8},
-    {'valor': 3, 'peso': 4},
-    {'valor': 8, 'peso': 2},
-    {'valor': 5, 'peso': 6},
-    {'valor': 6, 'peso': 3},
-    {'valor': 4, 'peso': 1},
-    {'valor': 5, 'peso': 8},
-    {'valor': 7, 'peso': 7},
-    {'valor': 3, 'peso': 4},
-    {'valor': 4, 'peso': 6},
     {'valor': 2, 'peso': 2},
+    {'valor': 3, 'peso': 4},
     {'valor': 3, 'peso': 5},
+    {'valor': 3, 'peso': 4},
+    {'valor': 4, 'peso': 1},
+    {'valor': 4, 'peso': 6},
+    {'valor': 5, 'peso': 5},
+    {'valor': 5, 'peso': 6},
+    {'valor': 5, 'peso': 8},
+    {'valor': 6, 'peso': 3},
+    {'valor': 7, 'peso': 7},
+    {'valor': 7, 'peso': 8},
+    {'valor': 8, 'peso': 2},
     {'valor': 9, 'peso': 3},
     ]
 
 print(len(itens))
 print(itens[15])
+
+estados = [
+   {
+      "dentro":[
+         {
+            "valor":4,
+            "peso":3
+         },
+         {
+            "valor":2,
+            "peso":3
+         },
+         {
+            "valor":7,
+            "peso":6
+         },
+      ],
+      "fora":[
+         {
+            "valor":5,
+            "peso":5
+         },
+         {
+            "valor":2,
+            "peso":2
+         },
+         {
+            "valor":7,
+            "peso":8
+         },
+         {
+            "valor":3,
+            "peso":4
+         },
+         {
+            "valor":8,
+            "peso":2
+         },
+         {
+            "valor":6,
+            "peso":3
+         },
+         {
+            "valor":7,
+            "peso":7
+         },
+         {
+            "valor":3,
+            "peso":4
+         },
+         {
+            "valor":2,
+            "peso":2
+         },
+         {
+            "valor":9,
+            "peso":3
+         }
+      ]
+   },
+   {
+      "dentro":[
+         {
+            "valor":5,
+            "peso":8
+         }
+      ],
+      "fora":[
+         {
+            "valor":5,
+            "peso":5
+         },
+         {
+            "valor":2,
+            "peso":2
+         },
+         {
+            "valor":7,
+            "peso":8
+         },
+         {
+            "valor":3,
+            "peso":4
+         },
+         {
+            "valor":8,
+            "peso":2
+         },
+         {
+            "valor":6,
+            "peso":3
+         },
+         {
+            "valor":7,
+            "peso":7
+         },
+         {
+            "valor":3,
+            "peso":4
+         },
+         {
+            "valor":2,
+            "peso":2
+         },
+         {
+            "valor":9,
+            "peso":3
+         }
+      ]
+   },
+   {
+      "dentro":[
+         {
+            "valor":3,
+            "peso":5
+         }
+      ],
+      "fora":[
+         {
+            "valor":5,
+            "peso":5
+         },
+         {
+            "valor":2,
+            "peso":2
+         },
+         {
+            "valor":7,
+            "peso":8
+         },
+         {
+            "valor":3,
+            "peso":4
+         },
+         {
+            "valor":8,
+            "peso":2
+         },
+         {
+            "valor":6,
+            "peso":3
+         },
+         {
+            "valor":7,
+            "peso":7
+         },
+         {
+            "valor":3,
+            "peso":4
+         },
+         {
+            "valor":2,
+            "peso":2
+         },
+         {
+            "valor":9,
+            "peso":3
+         }
+      ]
+   },
+   {
+      "dentro":[
+         {
+            "valor":4,
+            "peso":1
+         }
+      ],
+      "fora":[
+         {
+            "valor":5,
+            "peso":5
+         },
+         {
+            "valor":2,
+            "peso":2
+         },
+         {
+            "valor":7,
+            "peso":8
+         },
+         {
+            "valor":3,
+            "peso":4
+         },
+         {
+            "valor":8,
+            "peso":2
+         },
+         {
+            "valor":6,
+            "peso":3
+         },
+         {
+            "valor":7,
+            "peso":7
+         },
+         {
+            "valor":3,
+            "peso":4
+         },
+         {
+            "valor":2,
+            "peso":2
+         },
+         {
+            "valor":9,
+            "peso":3
+         }
+      ]
+   },
+   {
+      "dentro":[
+         {
+            "valor":5,
+            "peso":6
+         }
+      ],
+      "fora":[
+         {
+            "valor":5,
+            "peso":5
+         },
+         {
+            "valor":2,
+            "peso":2
+         },
+         {
+            "valor":7,
+            "peso":8
+         },
+         {
+            "valor":3,
+            "peso":4
+         },
+         {
+            "valor":8,
+            "peso":2
+         },
+         {
+            "valor":6,
+            "peso":3
+         },
+         {
+            "valor":7,
+            "peso":7
+         },
+         {
+            "valor":3,
+            "peso":4
+         },
+         {
+            "valor":2,
+            "peso":2
+         },
+         {
+            "valor":9,
+            "peso":3
+         }
+      ]
+   }
+]
