@@ -21,7 +21,7 @@ itens = [
 capacidade = 20
 itens_aux = itens
 estados = []
-num_estados = 5;
+num_estados = 20;
 
 def sorteiaEstado(sol):
     if len(sol['fora']) < 1:
@@ -45,12 +45,22 @@ for x in range(num_estados):
     # print("=-=-=-=-==-=-=--=-=-=-===--=-=-=--=-")
     # print(estados)
 
-print("=======================================================================================")
+print("========================================================")
+print(f"Estados: {num_estados}")
+melhor = {
+    'num_estado': 0,
+    'valor': 0
+}
 for i in range(num_estados):
-    print("estado " + str(i) + " | valor: " + str(sum(item["valor"] for item in estados[i]["dentro"])) + " | capacidade: " + str(sum(item["peso"] for item in estados[i]["dentro"])))
+    valor_estado = sum(item["valor"] for item in estados[i]["dentro"])
+    # print("estado " + str(i) + " | valor: " + str(valor_estado) + " | capacidade: " + str(sum(item["peso"] for item in estados[i]["dentro"])))
+    if valor_estado > melhor['valor']:
+        melhor['num_estado'] = i
+        melhor['valor'] = valor_estado
+    # for item in estados[i]['dentro']:
+    #     print("peso: " + str(item['peso']) + " | valor: " + str(item['valor']))    
+    # print("--------------------------------------------------------")
 
-    for item in estados[i]['dentro']:
-        print("peso: " + str(item['peso']) + " | valor: " + str(item['valor']))
-        
-    print("--------------------------------------------------------")
-print("=======================================================================================")   
+print(f"Melhor estado: {melhor['num_estado']} | Valor: {melhor['valor']}")
+
+print("========================================================")   
