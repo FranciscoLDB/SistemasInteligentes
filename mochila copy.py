@@ -1,4 +1,5 @@
 import random
+import secrets
 
 itens = [
     {'valor': 5, 'peso': 5},
@@ -13,7 +14,6 @@ estados = []
 num_estados = 1;
 
 def sorteiaEstado():
-    sys_random = random.SystemRandom()
     estado = {'dentro': [], 'fora': itens.copy()}
     
     cap_aux = sum(item["peso"] for item in estado["dentro"])
@@ -21,25 +21,24 @@ def sorteiaEstado():
     while len(estado['fora']) > 0:
         item_sort = estado['fora'].pop(0)
         cap_aux += item_sort['peso']
-        if sys_random.randint(0, 1) and cap_aux <= capacidade:
+        if secrets.randbelow(2) and cap_aux <= capacidade:
             estado['dentro'].append(item_sort)
         else:
             cap_aux -= item_sort['peso']
             sorteio_fora.append(item_sort)
 
-    # estado['fora'] = sorteio_fora.copy()
+    estado['fora'] = sorteio_fora.copy()
 
     return estado
     # print(estado)
 
 def percorre(estado):
-    sys_random = random.SystemRandom()
     if len(estado['fora']) < 1:
         return sum(item["valor"] for item in estado["dentro"])  
     item_first = estado['fora'].pop(0)
     cap_aux = sum(item["peso"] for item in estado["dentro"])
     cap_aux += item_first['peso']
-    if sys_random.randint(0, 1) and cap_aux <= capacidade:
+    if secrets.randbelow(2) and cap_aux <= capacidade:
         estado['dentro'].append(item_first)
     # else:
     #     estado['fora'].append(item_first)
@@ -62,22 +61,24 @@ melhor = {
 aux_melhor = 0;
 c = 0;
 while True:
-    for estado in estados:
-        print(estado)
+    for i in range (len(estados)):
+        print(estados[i])
         print("-")
-        valor_estado = sum(item["valor"] for item in estado["dentro"])
-        deltaE = percorre(estado)
+        valor_estado = sum(item["valor"] for item in estados[i]["dentro"])
+        deltaE = percorre(estados[i])
         if valor_estado > melhor['valor']:
-            melhor['num_estado'] = estados.index(estado)
+            melhor['num_estado'] = i
             melhor['valor'] = valor_estado
-            melhor['itens'] = estado['dentro'].copy()
+            melhor['itens'] = estados[i]['dentro'].copy()
             
         if deltaE == valor_estado:
             # print(f"/////////////// ANTES //////////////////////////////")
-            # print(estado)
-            estado = sorteiaEstado()
+            # print(estados[i])
+            estados[i] = sorteiaEstado()
             # print(f"/////////////// DEPOIS /////////////////////////////")
-            # print(estado)
+            # print(estados[i])
+            # print(estados)
+            
             valor_estado = 0
         
     
@@ -85,11 +86,12 @@ while True:
     # print(f"Contagem: {c} | Melhor estado: {melhor['num_estado']} | Valor: {melhor['valor']}")
     # print(melhor['itens'])
     # print(f"===========================================")
-    if melhor['valor'] >= 17:
+    if melhor['valor'] >= 17 or c >= 100:
         print(f"FIM")
         break
 
 print(f"Contagem: {c} | Melhor estado: {melhor['num_estado']} | Valor: {melhor['valor']}")
+print(melhor['itens'])
 print(f"===========================================")
 
 
