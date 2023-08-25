@@ -18,9 +18,8 @@ itens_aux = itens
 estados = []
 num_estados = 20;
 
-def sorteiaEstado(sol):
-    if len(sol['fora']) < 1:
-        return
+def sorteiaEstado():
+    sol = {'dentro': [], 'fora': itens.copy()}
     
     cap_aux = sum(item["peso"] for item in sol["dentro"])
     aux = sol['fora'].pop(random.randint(0, len(sol['fora'])-1))
@@ -29,14 +28,12 @@ def sorteiaEstado(sol):
         sol['dentro'].append(aux)
     else:
         sol['fora'].append(aux)
-
+    return sol
     # print(sol)
 
 for x in range(num_estados):
-    estado = {'dentro': [], 'fora': itens.copy()}
     for i in range(10):
-        sorteiaEstado(estado)
-    estados.append(estado)
+        estados.append(sorteiaEstado())
     # print("=-=-=-=-==-=-=--=-=-=-===--=-=-=--=-")
     # print(estados)
 
