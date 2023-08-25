@@ -13,34 +13,37 @@ estados = []
 num_estados = 1;
 
 def sorteiaEstado():
+    sys_random = random.SystemRandom()
     estado = {'dentro': [], 'fora': itens.copy()}
     
     cap_aux = sum(item["peso"] for item in estado["dentro"])
     sorteio_fora = []
     while len(estado['fora']) > 0:
-        item_sort = estado['fora'].pop(random.randint(0, len(estado['fora'])-1))
+        item_sort = estado['fora'].pop(0)
         cap_aux += item_sort['peso']
-        if random.randint(0, 1) and cap_aux <= capacidade:
+        if sys_random.randint(0, 1) and cap_aux <= capacidade:
             estado['dentro'].append(item_sort)
         else:
             cap_aux -= item_sort['peso']
             sorteio_fora.append(item_sort)
 
-    estado['fora'] = sorteio_fora.copy()
+    # estado['fora'] = sorteio_fora.copy()
 
     return estado
     # print(estado)
 
 def percorre(estado):
+    sys_random = random.SystemRandom()
     if len(estado['fora']) < 1:
-        return    
-    item_sort = estado['fora'].pop(random.randint(0, len(estado['fora'])-1))
+        return sum(item["valor"] for item in estado["dentro"])  
+    item_first = estado['fora'].pop(0)
     cap_aux = sum(item["peso"] for item in estado["dentro"])
-    cap_aux += item_sort['peso']
-    if cap_aux <= capacidade:
-        estado['dentro'].append(item_sort)
-    else:
-        estado['fora'].append(item_sort)
+    cap_aux += item_first['peso']
+    if sys_random.randint(0, 1) and cap_aux <= capacidade:
+        estado['dentro'].append(item_first)
+    # else:
+    #     estado['fora'].append(item_first)
+        
     
     return sum(item["valor"] for item in estado["dentro"])
 
@@ -60,6 +63,8 @@ aux_melhor = 0;
 c = 0;
 while True:
     for estado in estados:
+        print(estado)
+        print("-")
         valor_estado = sum(item["valor"] for item in estado["dentro"])
         deltaE = percorre(estado)
         if valor_estado > melhor['valor']:
