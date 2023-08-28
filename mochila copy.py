@@ -1,4 +1,3 @@
-import random
 import secrets
 
 itens = [
@@ -7,11 +6,16 @@ itens = [
     {'valor': 4, 'peso': 1},
     {'valor': 3, 'peso': 4},
     {'valor': 9, 'peso': 3},
+    {'valor': 6, 'peso': 3},
+    {'valor': 5, 'peso': 8},
+    {'valor': 8, 'peso': 4},
+    {'valor': 1, 'peso': 1},
+    {'valor': 4, 'peso': 6},
     ]
 
-capacidade = 10
+capacidade = 15
 estados = []
-num_estados = 1;
+num_estados = 3;
 
 def sorteiaEstado():
     estado = {'dentro': [], 'fora': itens.copy()}
@@ -49,9 +53,9 @@ def percorre(estado):
 for x in range(num_estados):
     estados.append(sorteiaEstado())
 
-print("===========================================")
-print("==============Estados criados==============")
-print("===========================================") 
+print("=====================")
+print("===Estados criados===")
+print("=====================") 
 
 melhor = {
     'num_estado': 0,
@@ -60,10 +64,10 @@ melhor = {
 }
 aux_melhor = 0;
 c = 0;
-while True:
+while True: 
     for i in range (len(estados)):
-        print(estados[i])
-        print(f"- {c} -")
+        # print(estados[i])
+        # print(f"- {c} -")
         valor_estado = sum(item["valor"] for item in estados[i]["dentro"])
         deltaE = percorre(estados[i])
         if valor_estado > melhor['valor']:
@@ -86,7 +90,7 @@ while True:
     # print(f"Contagem: {c} | Melhor estado: {melhor['num_estado']} | Valor: {melhor['valor']}")
     # print(melhor['itens'])
     # print(f"===========================================")
-    if melhor['valor'] >= 17 or c >= 100:
+    if melhor['valor'] >= 30 or c >= 1000:
         print(f"FIM")
         break
 
