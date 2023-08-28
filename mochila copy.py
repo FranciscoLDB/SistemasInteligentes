@@ -63,7 +63,7 @@ c = 0;
 while True:
     for i in range (len(estados)):
         print(estados[i])
-        print("-")
+        print(f"- {c} -")
         valor_estado = sum(item["valor"] for item in estados[i]["dentro"])
         deltaE = percorre(estados[i])
         if valor_estado > melhor['valor']:
