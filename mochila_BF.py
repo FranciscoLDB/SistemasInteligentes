@@ -13,7 +13,7 @@ itens = [
     {'valor': 4, 'peso': 6},
     ]
 
-capacidade = 15
+capacidade = 17
 estados = []
 num_estados = 3;
 
@@ -74,6 +74,7 @@ while True:
             melhor['num_estado'] = i
             melhor['valor'] = valor_estado
             melhor['itens'] = estados[i]['dentro'].copy()
+            c = 0
             
         if deltaE == valor_estado:
             # print(f"/////////////// ANTES //////////////////////////////")
@@ -90,7 +91,7 @@ while True:
     # print(f"Contagem: {c} | Melhor estado: {melhor['num_estado']} | Valor: {melhor['valor']}")
     # print(melhor['itens'])
     # print(f"===========================================")
-    if melhor['valor'] >= 30 or c >= 1000:
+    if c >= 1000:
         print(f"FIM")
         break
 
