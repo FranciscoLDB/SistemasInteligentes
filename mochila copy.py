@@ -1,4 +1,5 @@
 import secrets
+import math
 
 itens = [
     {'valor': 5, 'peso': 5},
@@ -6,65 +7,85 @@ itens = [
     {'valor': 4, 'peso': 1},
     {'valor': 3, 'peso': 4},
     {'valor': 9, 'peso': 3},
-    {'valor': 6, 'peso': 3},
-    {'valor': 5, 'peso': 8},
-    {'valor': 8, 'peso': 4},
-    {'valor': 1, 'peso': 1},
-    {'valor': 4, 'peso': 6},
     ]
 
-capacidade = 15
+capacidade = 10
 estados = []
 num_estados = 3;
 
+def atualizaCapacidade(estado):
+    cap = 0
+    for i in range(len(itens)):
+        if estado[i] == 1:
+            cap += itens[i]['peso']
+    return cap
+
 def sorteiaEstado():
-    estado = {'dentro': [], 'fora': itens.copy()}
-    
-    cap_aux = sum(item["peso"] for item in estado["dentro"])
-    sorteio_fora = []
-    while len(estado['fora']) > 0:
-        item_sort = estado['fora'].pop(0)
-        cap_aux += item_sort['peso']
-        if secrets.randbelow(2) and cap_aux <= capacidade:
-            estado['dentro'].append(item_sort)
+    estado = []  
+    for i in range(len(itens)):
+        if secrets.randbelow(2):
+            estado.append(1)
         else:
-            cap_aux -= item_sort['peso']
-            sorteio_fora.append(item_sort)
+            estado.append(0)
 
-    estado['fora'] = sorteio_fora.copy()
+    cap_aux = atualizaCapacidade(estado)
+    while cap_aux > capacidade:
+        rand = secrets.randbelow(5)
+        if estado[rand] == 1:
+            estado[rand] = 0
+            cap_aux -= itens[rand]['peso']
 
-    return estado
     # print(estado)
+    # print(f'capacidade: {cap_aux}')
+    # print(f'=====================')
+    return estado
 
-def percorre(estado):
-    if len(estado['fora']) < 1:
-        return sum(item["valor"] for item in estado["dentro"])  
-    item_first = estado['fora'].pop(0)
-    cap_aux = sum(item["peso"] for item in estado["dentro"])
-    cap_aux += item_first['peso']
-    if secrets.randbelow(2) and cap_aux <= capacidade:
-        estado['dentro'].append(item_first)
-    # else:
-    #     estado['fora'].append(item_first)
-        
+def sucessorAtual(atual):
+    index = secrets.randbelow(5);
+    if atual[index] == 1:
+        atual[index] = 0;
+    else:
+        atual[index] = 1;
+    return atual
+
+def calcValor(estado):
+    val = 0
+    for i in range(len(itens)):
+        if estado[i] == 1:
+            val += itens[i]['valor']
+    return val
     
-    return sum(item["valor"] for item in estado["dentro"])
+def calcDelta(proximo, atual):
+    delta = calcValor(proximo) - calcValor(atual);
+    return delta;    
 
-for x in range(num_estados):
-    estados.append(sorteiaEstado())
+def Temp():
+    t = 0;
+    T = 1000;
+    resp = {
+        'estado': [],
+        'valor': 0,
+        'peso': 0,
+    };
+    estado_atual = sorteiaEstado()
 
-print("=====================")
-print("===Estados criados===")
-print("=====================") 
+    while True:
+        T -= 1;
+        if T == 0:
+            return resp;
+        estado_proximo = sucessorAtual(estado_atual.copy());
+        deltaE = calcDelta(estado_proximo, estado_atual);
+        if deltaE > 0:
+            estado_atual = estado_proximo;
+        else:
+            n = secrets.randbelow(101);
+            if n < math.exp(deltaE/T):
+                estado_atual = estado_proximo;
+        
+        t += 1;
 
-melhor = {
-    'num_estado': 0,
-    'valor': 0,
-    'itens': []
-}
-aux_melhor = 0;
-c = 0;
-while True: 
+
+while False: 
     for i in range (len(estados)):
         # print(estados[i])
         # print(f"- {c} -")
@@ -74,28 +95,14 @@ while True:
             melhor['num_estado'] = i
             melhor['valor'] = valor_estado
             melhor['itens'] = estados[i]['dentro'].copy()
-            
-        if deltaE == valor_estado:
-            # print(f"/////////////// ANTES //////////////////////////////")
-            # print(estados[i])
-            estados[i] = sorteiaEstado()
-            # print(f"/////////////// DEPOIS /////////////////////////////")
-            # print(estados[i])
-            # print(estados)
-            
-            valor_estado = 0
-        
+            c = 0        
     
     c += 1
     # print(f"Contagem: {c} | Melhor estado: {melhor['num_estado']} | Valor: {melhor['valor']}")
     # print(melhor['itens'])
     # print(f"===========================================")
-    if melhor['valor'] >= 30 or c >= 1000:
+    if c >= 1000:
         print(f"FIM")
         break
 
-print(f"Contagem: {c} | Melhor estado: {melhor['num_estado']} | Valor: {melhor['valor']}")
-print(melhor['itens'])
-print(f"===========================================")
-
-
+print(Temp());
