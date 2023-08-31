@@ -35,17 +35,26 @@ def sorteiaEstado():
             estado[rand] = 0
             cap_aux -= itens[rand]['peso']
 
-    # print(estado)
-    # print(f'capacidade: {cap_aux}')
-    # print(f'=====================')
     return estado
 
 def sucessorAtual(atual):
-    index = secrets.randbelow(5);
-    if atual[index] == 1:
-        atual[index] = 0;
-    else:
-        atual[index] = 1;
+    vet_aux = [];
+    for x in range(len(itens)): vet_aux.append(x);
+    while len(vet_aux) > 1:
+        index = vet_aux.pop(secrets.randbelow(len(vet_aux)));
+        print(len(vet_aux));
+        if atual[index] == 0:
+            if atualizaCapacidade(atual) < capacidade:
+                atual[index] = 1;
+                print('break!!!!!!!!!!!!');
+                break;
+            else:
+                print('esto no else');
+        else:
+            atual[index] = 0;
+            print('break!!!!!!!!!!!!');
+            break;
+
     return atual
 
 def calcValor(estado):
@@ -72,7 +81,7 @@ def Temp():
     while True:
         T -= 1;
         if T == 0:
-            return resp;
+            return estado_atual;
         estado_proximo = sucessorAtual(estado_atual.copy());
         deltaE = calcDelta(estado_proximo, estado_atual);
         if deltaE > 0:
@@ -105,4 +114,7 @@ while False:
         print(f"FIM")
         break
 
-print(Temp());
+R = Temp();
+print(R);
+print(f"Valor: {calcValor(R)}");
+print(f"Valor: {atualizaCapacidade(R)}");
