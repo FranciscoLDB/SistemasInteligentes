@@ -44,10 +44,14 @@ while len(vet_aux) > 1:
         atual[index] = 1;
         break;
 
-
+import secrets
 lista = [1, 2, 3, 4, 5]
-for elemento in lista:
-    elemento = 0
+print(lista)
+for x in range(len(lista)):
+    x = lista.pop(secrets.randbelow(len(lista)))
+    print(x)
+    print(lista)
+
 
 for elemento in lista:
     print(elemento)
