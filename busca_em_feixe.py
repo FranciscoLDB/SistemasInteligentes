@@ -8,9 +8,7 @@ itens = [
     {'valor': 3, 'peso': 3},
     {'valor': 9, 'peso': 4},
     ]
-
 capacidade = 10
-estados = []
 num_estados = 3;
 
 def atualizaCapacidade(estado):
@@ -94,10 +92,9 @@ def buscaEmFeixe(k = 1):
         
         t += 1;
 
-R = buscaEmFeixe(5);
-i = 0;
+Resp = buscaEmFeixe(num_estados);
 melhor = []
-for estado in R:
+for estado in Resp:
     if calcValor(estado) > calcValor(melhor):
         melhor = estado
 
