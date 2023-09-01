@@ -71,47 +71,56 @@ def escalonaT(t):
         T = 0
     return T
 
-def buscaEmFeixe(k):
-    estados = sorteiaEstado();
+def buscaEmFeixe(k = 1):
+    estados = [];
     for est in range(k): 
-        est = []
-        estados.append(est);
+        estados.append(sorteiaEstado());
     t = 0;
-    estado_atual = sorteiaEstado()
+    print(estados)
     while True:
         # print(estado_atual);
         # print(calcValor(estado_atual))
         # print(f"Valor: {calcValor(estado_atual)} | Peso: {atualizaCapacidade(estado_atual)}");
         T = escalonaT(t);
         # print(T)
-        if T <= 0:
-            return estado_atual;
-        estado_proximo = sucessorAtual(estado_atual.copy());
-        deltaE = calcDelta(estado_proximo, estado_atual);
-        # print(f"deltaE: {deltaE}")
-        if deltaE > 0:
-            estado_atual = estado_proximo;
-            # print("Melhoro!")
-        else:
-            n = secrets.randbelow(101)/100;
-            # print(f"n: {n}  <  {math.exp(deltaE/T)}")
-            if n < math.exp(deltaE/T):
-                estado_atual = estado_proximo;
-                # print("Pioro!")
+        # print(estados)
+        if T <= 1:
+            return estados;
+        for i in range(len(estados)):
+            estado_proximo = sucessorAtual(estados[i].copy());
+            deltaE = calcDelta(estado_proximo, estados[i]);
+            # print(f"deltaE: {deltaE}")
+            if deltaE > 0:
+                estados[i] = estado_proximo;
+                # print(f"Melhoro! -> {estado_proximo}")
             else:
-                # print("Manteve!")
-                t=t;
+                n = secrets.randbelow(101)/100;
+                # print(f"n: {n}  <  {math.exp(deltaE/T)}")
+                if n < math.exp(deltaE/T):
+                    estados[i] = estado_proximo;
+                    # print("Pioro! -> {estado_proximo}")
+                else:
+                    # print("Manteve!")
+                    t=t;
         
         t += 1;
 
-media = 0;
-vezes = 1000;
-for x in range(vezes):
-    R = Temp();
-    # print("=============================================");
-    # print(R);
-    # print(f"Valor: {calcValor(R)}");
-    # print(f"Peso: {atualizaCapacidade(R)}");
-    media += calcValor(R);
+R = buscaEmFeixe(5);
+print(R)
+i = 0;
+for estado in R:
+    i += 1;
+    print(f'Estado {i}: {estado}')
+    print(f"Valor: {calcValor(estado)} | Peso: {atualizaCapacidade(estado)}");
+
+# media = 0;
+# vezes = 1000;
+# for x in range(vezes):
+#     R = buscaEmFeixe(5);
+#     # print("=============================================");
+#     # print(R);
+#     # print(f"Valor: {calcValor(R)}");
+#     # print(f"Peso: {atualizaCapacidade(R)}");
+#     media += calcValor(R);
 
 

@@ -43,3 +43,11 @@ while len(vet_aux) > 1:
     else:
         atual[index] = 1;
         break;
+
+
+lista = [1, 2, 3, 4, 5]
+for elemento in lista:
+    elemento = 0
+
+for elemento in lista:
+    print(elemento)
