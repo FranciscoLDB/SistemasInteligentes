@@ -55,3 +55,23 @@ for x in range(len(lista)):
 
 for elemento in lista:
     print(elemento)
+
+veta = [2, 3, 4, 8, 7]
+vetb = [10, 20, 9, 5, 6]
+print(veta)
+print(vetb)
+c = 3;
+aux = veta[:c] + vetb[c:]
+print(aux)
+
+import random
+
+# Vetor de elementos com probabilidades
+elementos = ['A', 'B', 'C', 'D']
+probabilidades = [0.1, 0.3, 0.2, 0.4]
+
+# Realizar o sorteio ponderado
+escolha = random.choices(elementos, probabilidades, k=1)[0]
+
+# Exibir o resultado
+print(f'O elemento escolhido foi: {escolha}')

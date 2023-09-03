@@ -1,4 +1,5 @@
 import secrets
+import random
 import math
 
 itens = [
@@ -55,18 +56,25 @@ def escalonaT(t):
     return T
 
 def selecaoRoleta(populacao):
-    escolhido = [];
+    probabilidade = [];
+    valorTotal = 0
+    for ind in populacao:
+        valorTotal += calcValor(ind)
+
+    for ind in populacao:
+        prob = calcValor(ind)/valorTotal
+        probabilidade.append(prob)
     
+    escolhido = random.choices(populacao, probabilidade, k=1)[0]
     return escolhido
 
-def reproduz(ind1, ind2):
-    filho = [];
-    i = secrets.randbelow(len(ind1));
-    
-
+def reproduz(ind1, ind2, i):
+    filho = ind1[:i] + ind2[i:];
     return filho
 
 def mutacao(ind):
+    i = secrets.randbelow(len(ind));
+    ind[i] = 0 if ind[i]==1 else 1;    
     return ind;
 
 def controlePopulacao(populacao):
@@ -81,10 +89,16 @@ def algoritmoGenetico(populacao):
         for i in range(len(populacao)):
             ind1 = selecaoRoleta(populacao);
             ind2 = selecaoRoleta(populacao);
-            filho = reproduz(ind1, ind2);
+            i = secrets.randbelow(len(ind1));
+            filho1 = reproduz(ind1, ind2, i);
+            filho2 = reproduz(ind2, ind1, i);
             if secrets.randbelow(101) < 5:
-                filho = mutacao(filho);
-            pop_aux.append(filho)
+                filho1 = mutacao(filho1);
+            if secrets.randbelow(101) < 5:
+                filho2 = mutacao(filho2);
+            pop_aux.append(filho1);
+            pop_aux.append(filho2);
+        
         populacao = pop_aux
         if t >= 50:
             break;
