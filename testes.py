@@ -75,3 +75,33 @@ escolha = random.choices(elementos, probabilidades, k=1)[0]
 
 # Exibir o resultado
 print(f'O elemento escolhido foi: {escolha}')
+
+
+import random
+
+# Suponha que cada elemento seja um par de valor e probabilidade
+elementos = [(1, 0.2), (2, 0.3), (3, 0.1), (4, 0.4)]
+
+# Crie uma lista cumulativa de probabilidades
+cumulative_probabilities = []
+cumulative_prob = 0
+for _, prob in elementos:
+    cumulative_prob += prob
+    cumulative_probabilities.append(cumulative_prob)
+
+# Gere um número aleatório entre 0 e 1
+random_number = random.uniform(0, 1)
+
+# Encontre o elemento escolhido com base no número aleatório
+chosen_element = None
+for i, cumulative_prob in enumerate(cumulative_probabilities):
+    if random_number <= cumulative_prob:
+        chosen_element = elementos[i][0]
+        break
+
+# Remova o elemento escolhido do vetor de elementos
+elementos = [(value, prob) for value, prob in elementos if value != chosen_element]
+
+# Imprima o elemento escolhido e a lista de elementos restantes
+print("Elemento Escolhido:", chosen_element)
+print("Elementos Restantes:", elementos)
