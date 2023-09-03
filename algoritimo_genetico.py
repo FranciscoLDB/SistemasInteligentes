@@ -54,13 +54,15 @@ def escalonaT(t):
         T = 0
     return T
 
-def selecaoAleatoria(populacao):
+def selecaoRoleta(populacao):
     escolhido = [];
     
     return escolhido
 
 def reproduz(ind1, ind2):
     filho = [];
+    i = secrets.randbelow(len(ind1));
+    
 
     return filho
 
@@ -77,8 +79,8 @@ def algoritmoGenetico(populacao):
         pop_aux = [];
     
         for i in range(len(populacao)):
-            ind1 = selecaoAleatoria(populacao);
-            ind2 = selecaoAleatoria(populacao);
+            ind1 = selecaoRoleta(populacao);
+            ind2 = selecaoRoleta(populacao);
             filho = reproduz(ind1, ind2);
             if secrets.randbelow(101) < 5:
                 filho = mutacao(filho);
