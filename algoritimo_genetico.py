@@ -64,8 +64,26 @@ def selecaoRoleta(populacao):
     for ind in populacao:
         prob = calcValor(ind)/valorTotal
         probabilidade.append(prob)
+
+    cumulative_probabilities = []
+    cumulative_prob = 0
+    for prob in probabilidade:
+        cumulative_prob += prob
+        cumulative_probabilities.append(cumulative_prob)
     
-    escolhido = random.choices(populacao, probabilidade, k=1)[0]
+    random_number = random.uniform(0, 1)
+    # Encontre o elemento escolhido com base no número aleatório
+    chosen_element = None
+    for i, cumulative_prob in enumerate(cumulative_probabilities):
+        if random_number <= cumulative_prob:
+            chosen_element = populacao[i]
+            break
+
+    vet_aux = []
+    for x in range(len(populacao)): vet_aux.append(x);
+
+    index = random.choices(vet_aux, probabilidade, k=1)[0]
+    escolhido = populacao.pop(index)
     return escolhido
 
 def reproduz(ind1, ind2, i):
@@ -78,7 +96,8 @@ def mutacao(ind):
     return ind;
 
 def controlePopulacao(populacao):
-
+    populacao_order = sorted(populacao, key=calcValor)
+    
     return populacao
 
 def algoritmoGenetico(populacao):
@@ -100,10 +119,10 @@ def algoritmoGenetico(populacao):
             pop_aux.append(filho2);
         
         populacao = pop_aux
-        if t >= 50:
+        if t >= 20:
             break;
         t += 1;
-
+        print(t)
 
 melhor = algoritmoGenetico(geraPopulacao(tam_populacao));
 print(f'Melhor estado: {melhor}')
