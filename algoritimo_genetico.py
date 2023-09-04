@@ -4,17 +4,25 @@ import math
 
 itens = [
     {'valor': 5, 'peso': 5},
-    {'valor': 2, 'peso': 2},
+    {'valor': 20, 'peso': 2},
     {'valor': 4, 'peso': 2},
     {'valor': 3, 'peso': 3},
-    {'valor': 9, 'peso': 4},
+    {'valor': 1, 'peso': 4},
+    {'valor': 9, 'peso': 7},
+    {'valor': 3, 'peso': 9},
+    {'valor': 7, 'peso': 4},
+    {'valor': 5, 'peso': 2},
+    {'valor': 40, 'peso': 5},
+    {'valor': 60, 'peso': 5},
+    {'valor': 7, 'peso': 7},
+    {'valor': 10, 'peso': 4},
     ]
-capacidade = 10
-tam_populacao = 6;
+capacidade = 17
+tam_populacao = 100;
 
 def atualizaCapacidade(estado):
     cap = 0
-    for i in range(len(itens)):
+    for i in range(len(estado)):
         if estado[i] == 1:
             cap += itens[i]['peso']
     return cap
@@ -26,14 +34,6 @@ def sorteiaEstado():
             estado.append(1)
         else:
             estado.append(0)
-
-    cap_aux = atualizaCapacidade(estado)
-    while cap_aux > capacidade:
-        rand = secrets.randbelow(5)
-        if estado[rand] == 1:
-            estado[rand] = 0
-            cap_aux -= itens[rand]['peso']
-
     return estado
 
 def geraPopulacao(k):
@@ -47,44 +47,24 @@ def calcValor(estado):
     for i in range(len(estado)):
         if estado[i] == 1:
             val += itens[i]['valor']
+    if atualizaCapacidade(estado) > capacidade:
+        return -1
+        
     return val
 
-def escalonaT(t):
-    T = 100 * math.exp(-0.001 * t)
-    if T < 1:
-        T = 0
-    return T
-
-def selecaoRoleta(populacao):
+def selecaoRoleta(valorTotal, populacao, ignorar=-1):
     probabilidade = [];
-    valorTotal = 0
-    for ind in populacao:
-        valorTotal += calcValor(ind)
-
+    if (valorTotal == 0):
+        return populacao[0]    
     for ind in populacao:
         prob = calcValor(ind)/valorTotal
         probabilidade.append(prob)
 
-    cumulative_probabilities = []
-    cumulative_prob = 0
-    for prob in probabilidade:
-        cumulative_prob += prob
-        cumulative_probabilities.append(cumulative_prob)
-    
-    random_number = random.uniform(0, 1)
-    # Encontre o elemento escolhido com base no número aleatório
-    chosen_element = None
-    for i, cumulative_prob in enumerate(cumulative_probabilities):
-        if random_number <= cumulative_prob:
-            chosen_element = populacao[i]
-            break
-
     vet_aux = []
     for x in range(len(populacao)): vet_aux.append(x);
-
     index = random.choices(vet_aux, probabilidade, k=1)[0]
-    escolhido = populacao.pop(index)
-    return escolhido
+
+    return index
 
 def reproduz(ind1, ind2, i):
     filho = ind1[:i] + ind2[i:];
@@ -95,34 +75,54 @@ def mutacao(ind):
     ind[i] = 0 if ind[i]==1 else 1;    
     return ind;
 
-def controlePopulacao(populacao):
-    populacao_order = sorted(populacao, key=calcValor)
-    
-    return populacao
-
 def algoritmoGenetico(populacao):
     t = 0;
-    while True:
-        pop_aux = [];
-    
-        for i in range(len(populacao)):
-            ind1 = selecaoRoleta(populacao);
-            ind2 = selecaoRoleta(populacao);
-            i = secrets.randbelow(len(ind1));
-            filho1 = reproduz(ind1, ind2, i);
-            filho2 = reproduz(ind2, ind1, i);
+    for t in range(50):
+        filhos = [];
+        rang = int(len(populacao)/2)
+        #print(rang)
+        #print(populacao)
+        paisvalidos = []
+        for ind in populacao:
+            if calcValor(ind) >=0:
+                paisvalidos.append(ind);
+        for i in range(rang):
+            valorTotal = 0            
+            for ind in paisvalidos:
+                valorTotal += calcValor(ind)
+            ind1 = selecaoRoleta(valorTotal, paisvalidos);
+            ind2 = selecaoRoleta(valorTotal, paisvalidos, ind1);
+
+            i = secrets.randbelow(len(paisvalidos[ind1]));
+            filho1 = reproduz(paisvalidos[ind1], paisvalidos[ind2], i);
+            filho2 = reproduz(paisvalidos[ind2], paisvalidos[ind1], i);
+
             if secrets.randbelow(101) < 5:
                 filho1 = mutacao(filho1);
             if secrets.randbelow(101) < 5:
                 filho2 = mutacao(filho2);
-            pop_aux.append(filho1);
-            pop_aux.append(filho2);
+            filhos.append(filho1);
+            filhos.append(filho2);
         
-        populacao = pop_aux
-        if t >= 20:
-            break;
-        t += 1;
-        print(t)
+        populacao = filhos
+
+        media = 0;
+        valido = 0;
+        for filho in filhos:
+            if atualizaCapacidade(filho) <= capacidade:
+                media = media + calcValor(filho);
+                valido += 1;
+        if valido > 0:
+            print(f'Geracao {t+1} | Media = {round(media/valido, 2)}')
+        else:
+            print(f'Geracao {t+1} | Media = {media}')
+        #print(populacao)
+
+    melhor = []
+    for estado in populacao:
+        if calcValor(estado) > calcValor(melhor) and atualizaCapacidade(estado) <= capacidade:
+            melhor = estado
+    return melhor;
 
 melhor = algoritmoGenetico(geraPopulacao(tam_populacao));
 print(f'Melhor estado: {melhor}')
