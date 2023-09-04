@@ -4,16 +4,12 @@ import math
 
 itens = [
     {'valor': 5, 'peso': 5},
-    {'valor': 20, 'peso': 2},
+    {'valor': 10, 'peso': 2},
     {'valor': 4, 'peso': 2},
     {'valor': 3, 'peso': 3},
-    {'valor': 1, 'peso': 4},
-    {'valor': 9, 'peso': 7},
-    {'valor': 3, 'peso': 9},
     {'valor': 7, 'peso': 4},
     {'valor': 5, 'peso': 2},
-    {'valor': 40, 'peso': 5},
-    {'valor': 60, 'peso': 5},
+    {'valor': 20, 'peso': 5},
     {'valor': 7, 'peso': 7},
     {'valor': 10, 'peso': 4},
     ]

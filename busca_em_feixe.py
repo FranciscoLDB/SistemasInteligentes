@@ -3,14 +3,6 @@ import math
 
 itens = [
     {'valor': 5, 'peso': 5},
-    {'valor': 2, 'peso': 2},
-    {'valor': 4, 'peso': 2},
-    {'valor': 3, 'peso': 3},
-    {'valor': 9, 'peso': 4},
-    ]
-
-itens = [
-    {'valor': 5, 'peso': 5},
     {'valor': 10, 'peso': 2},
     {'valor': 4, 'peso': 2},
     {'valor': 3, 'peso': 3},
@@ -21,7 +13,7 @@ itens = [
     {'valor': 10, 'peso': 4},
     ]
 
-capacidade = 18
+capacidade = 17
 num_estados = 5;
 historico = [];
 
