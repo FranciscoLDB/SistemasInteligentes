@@ -8,8 +8,22 @@ itens = [
     {'valor': 3, 'peso': 3},
     {'valor': 9, 'peso': 4},
     ]
-capacidade = 10
-num_estados = 3;
+
+itens = [
+    {'valor': 5, 'peso': 5},
+    {'valor': 10, 'peso': 2},
+    {'valor': 4, 'peso': 2},
+    {'valor': 3, 'peso': 3},
+    {'valor': 7, 'peso': 4},
+    {'valor': 5, 'peso': 2},
+    {'valor': 20, 'peso': 5},
+    {'valor': 7, 'peso': 7},
+    {'valor': 10, 'peso': 4},
+    ]
+
+capacidade = 18
+num_estados = 5;
+historico = [];
 
 def atualizaCapacidade(estado):
     cap = 0
@@ -27,11 +41,13 @@ def sorteiaEstado():
             estado.append(0)
 
     cap_aux = atualizaCapacidade(estado)
+    vet_aux = []
+    for x in range(len(estado)): vet_aux.append(x);
     while cap_aux > capacidade:
-        rand = secrets.randbelow(5)
-        if estado[rand] == 1:
-            estado[rand] = 0
-            cap_aux -= itens[rand]['peso']
+        index = vet_aux.pop(secrets.randbelow(len(vet_aux)));
+        if estado[index] == 1:
+            estado[index] = 0
+            cap_aux -= itens[index]['peso']
 
     return estado
 
@@ -64,7 +80,7 @@ def calcDelta(proximo, atual):
     return delta;    
 
 def escalonaT(t):
-    T = 100 * math.exp(-0.001 * t)
+    T = 100 * math.exp(-0.007 * t)
     if T < 1:
         T = 0
     return T
@@ -76,6 +92,7 @@ def buscaEmFeixe(k = 1):
     t = 0;
     while True:
         T = escalonaT(t);
+        #print(T)
         if T <= 1:
             return estados;
         for i in range(len(estados)):
@@ -90,6 +107,12 @@ def buscaEmFeixe(k = 1):
                 else:
                     t=t;
         
+        melhor = []
+        for estado in estados:
+            if calcValor(estado) > calcValor(melhor):
+                melhor = estado
+        historico.append(calcValor(melhor))
+
         t += 1;
 
 Resp = buscaEmFeixe(num_estados);
@@ -100,4 +123,13 @@ for estado in Resp:
 
 print(f'Melhor estado: {melhor}')
 print(f"Valor: {calcValor(melhor)} | Peso: {atualizaCapacidade(melhor)}");
+
+#GERADOR DE GRAFICO
+from matplotlib import pyplot
+pyplot.plot(range(len(historico)), historico)
+pyplot.grid(True, zorder=0)
+pyplot.title("Problema da mochila - Busca em feixe")
+pyplot.xlabel("Passos")
+pyplot.ylabel("Melhor valor")
+pyplot.show()
 

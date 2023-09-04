@@ -19,6 +19,7 @@ itens = [
     ]
 capacidade = 17
 tam_populacao = 100;
+historico = []
 
 def atualizaCapacidade(estado):
     cap = 0
@@ -112,11 +113,9 @@ def algoritmoGenetico(populacao):
             if atualizaCapacidade(filho) <= capacidade:
                 media = media + calcValor(filho);
                 valido += 1;
-        if valido > 0:
-            print(f'Geracao {t+1} | Media = {round(media/valido, 2)}')
-        else:
-            print(f'Geracao {t+1} | Media = {media}')
-        #print(populacao)
+        media = int(round(media/valido))
+        print(f'Geracao {t+1} | Media = {media}')
+        historico.append(media)
 
     melhor = []
     for estado in populacao:
@@ -127,4 +126,13 @@ def algoritmoGenetico(populacao):
 melhor = algoritmoGenetico(geraPopulacao(tam_populacao));
 print(f'Melhor estado: {melhor}')
 print(f"Valor: {calcValor(melhor)} | Peso: {atualizaCapacidade(melhor)}");
+
+#GERADOR DE GRAFICO
+from matplotlib import pyplot
+pyplot.plot(range(len(historico)), historico)
+pyplot.grid(True, zorder=0)
+pyplot.title("Problema da mochila - Algoritmo Genetico")
+pyplot.xlabel("Num. Geracao")
+pyplot.ylabel("Valor medio")
+pyplot.show()
 
