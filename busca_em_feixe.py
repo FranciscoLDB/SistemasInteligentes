@@ -17,6 +17,7 @@ capacidade = 17
 num_estados = 5;
 historico = [];
 
+#calcula o peso dos itens do estado passado
 def atualizaCapacidade(estado):
     cap = 0
     for i in range(len(itens)):
@@ -24,6 +25,8 @@ def atualizaCapacidade(estado):
             cap += itens[i]['peso']
     return cap
 
+#sorteia um estado inicial de forma aleatória 
+#!!nao permite estados que passem da capacidade maxima
 def sorteiaEstado():
     estado = []  
     for i in range(len(itens)):
@@ -43,6 +46,7 @@ def sorteiaEstado():
 
     return estado
 
+#sorteia de forma aleatoria um estado sucessor do passado
 def sucessorAtual(atual):
     vet_aux = [];
     for x in range(len(itens)): vet_aux.append(x);
@@ -60,45 +64,57 @@ def sucessorAtual(atual):
     
     return atual
 
+#calcula o valor dos itens do estado passado
 def calcValor(estado):
     val = 0
     for i in range(len(estado)):
         if estado[i] == 1:
             val += itens[i]['valor']
     return val
-    
+
+#calcula o delta de 2 estados
 def calcDelta(proximo, atual):
     delta = calcValor(proximo) - calcValor(atual);
     return delta;    
 
+#escalona a temperatura T
 def escalonaT(t):
     T = 100 * math.exp(-0.007 * t)
     if T < 1:
         T = 0
     return T
 
+#codigo principal da busca em feixe
 def buscaEmFeixe(k = 1):
+    #cria k estados iniciais
     estados = [];
     for est in range(k): 
         estados.append(sorteiaEstado());
+    
     t = 0;
     while True:
+        #escalona T em funcao de t
         T = escalonaT(t);
-        #print(T)
         if T <= 1:
             return estados;
+    
+        #varre o loop de estados
         for i in range(len(estados)):
+            #pega um estado sucessor do atual e calcula o delta
             estado_proximo = sucessorAtual(estados[i].copy());
             deltaE = calcDelta(estado_proximo, estados[i]);
+
+            #se delta positivo troca 
+            
             if deltaE > 0:
                 estados[i] = estado_proximo;
             else:
+                #se delta negativo chance de trocar mesmo assim (maior no comeco / menor no final)
                 n = secrets.randbelow(101)/100;
                 if n < math.exp(deltaE/T):
                     estados[i] = estado_proximo;
-                else:
-                    t=t;
         
+        #quarda o melhor estado para gerar o grafico
         melhor = []
         for estado in estados:
             if calcValor(estado) > calcValor(melhor):
@@ -108,15 +124,16 @@ def buscaEmFeixe(k = 1):
         t += 1;
 
 Resp = buscaEmFeixe(num_estados);
+
+#seleciona e mostra o melhor estado do resultado final
 melhor = []
 for estado in Resp:
     if calcValor(estado) > calcValor(melhor):
         melhor = estado
-
 print(f'Melhor estado: {melhor}')
 print(f"Valor: {calcValor(melhor)} | Peso: {atualizaCapacidade(melhor)}");
 
-#GERADOR DE GRAFICO
+#gera o grafico de melhor valor em funcao dos passos
 from matplotlib import pyplot
 pyplot.plot(range(len(historico)), historico)
 pyplot.grid(True, zorder=0)

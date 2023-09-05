@@ -74,7 +74,8 @@ def mutacao(ind):
 
 def algoritmoGenetico(populacao):
     t = 0;
-    for t in range(50):
+    num_geracoes = 50
+    for t in range(num_geracoes):
         filhos = [];
         rang = int(len(populacao)/2)
         #print(rang)
@@ -83,6 +84,7 @@ def algoritmoGenetico(populacao):
         for ind in populacao:
             if calcValor(ind) >=0:
                 paisvalidos.append(ind);
+        
         for i in range(rang):
             valorTotal = 0            
             for ind in paisvalidos:
